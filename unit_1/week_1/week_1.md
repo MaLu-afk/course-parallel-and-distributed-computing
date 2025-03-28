@@ -58,3 +58,24 @@ panadero. Cada uno se dedicaría a preparar su propio pastel y, de
 esa manera, estarían realizando dos tareas al mismo tiempo. A esto 
 se le conoce como paralelismo, donde dos o más tareas se ejecutan 
 simultáneamente.
+
+### **Diferencia entre concurrencia y paralelismo:**
+
+Cuando hablamos de concurrencia, podemos decir que múltiples tareas
+se ejecutan independientemente una de otra. Podemos tener concurrencia
+en una CPU de un solo núcleo, ya que la operación empleará 
+multitarea preventiva para cambiar entre tareas. Sin embargo, 
+paralelismo ejecuta dos o más tareas al mismo tiempo. En máquinas 
+con un solo núcleo, esto es imposible. Para hacerlo posible, se
+necesita una CPU con múltiples núcleos para ejecutar tareas juntas. 
+
+Mientras paralelismo implica concurrencia, la concurrencia no siempre
+implica paralelismo. 
+
+### **Multitarea:**
+
+#### 1. Multitarea preventiva: 
+- En este modelo permitimos que el sistema operativo decida cómo cambiar 
+las tareas en ejecución mediante un proceso llamado segmentación temporal.
+Cuando el sistema operativo             
+#### 2. Multitarea cooperativa
