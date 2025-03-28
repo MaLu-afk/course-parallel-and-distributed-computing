@@ -1,8 +1,6 @@
 # ¡Bienvenido a mi repositorio!
 
-En este respositorio se muestra el contenido de ejercicios, ejemplos sobre
-computación paralela y distribuida, que cubre temas como la concurrencia, 
-paralelismo, multiprocesamiento y más en el lenguaje de programación Python.
+Este repositorio contiene ejercicios y ejemplos sobre computación paralela y distribuida, que cubre temas como concurrencia, paralelismo, multiprocesamiento y más, utilizando el lenguaje de programación Python.
 
 ## Contenido:
 
