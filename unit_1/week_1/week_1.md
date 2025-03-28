@@ -49,3 +49,12 @@ varias tareas pueden ejecutarse de manera intercalada, aprovechando
 los tiempos de espera de una tarea para avanzar con otra, pero sin 
 necesariamente ejecutarse al mismo tiempo. A esto se le conoce como 
 concurrencia.
+
+### **Paralelismo:**
+Si hablamos de concurrencia, no nos referimos a que las tareas se 
+ejecutan al mismo tiempo. Eso sucede en el paralelismo.
+Tomando el mismo caso, imaginemos ahora que tenemos a un segundo 
+panadero. Cada uno se dedicaría a preparar su propio pastel y, de 
+esa manera, estarían realizando dos tareas al mismo tiempo. A esto 
+se le conoce como paralelismo, donde dos o más tareas se ejecutan 
+simultáneamente.
