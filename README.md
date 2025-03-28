@@ -5,7 +5,7 @@ Este repositorio contiene ejercicios y ejemplos sobre computación paralela y di
 ## Contenido:
 
 1. [Introducción a la Computación Concurrente, Paralela y
-Distribuida](unit_1/week_1.md)
+Distribuida](unit_1/unit_1.md)
 
 2. [Programación Paralela](unit_2/week_n.md)
 
