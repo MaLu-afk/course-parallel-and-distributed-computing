@@ -75,7 +75,101 @@ implica paralelismo.
 ### **Multitarea:**
 
 #### 1. Multitarea preventiva: 
-- En este modelo permitimos que el sistema operativo decida cómo cambiar 
-las tareas en ejecución mediante un proceso llamado segmentación temporal.
-Cuando el sistema operativo             
-#### 2. Multitarea cooperativa
+- En este modelo, permitimos que el sistema operativo decida cómo cambiar 
+las tareas en ejecución mediante un proceso llamado segmentación temporal
+(time slicing). Cuando el sistema operativo realiza el cambio, lo llamamos 
+expropiación (preempting). Todo el funcionamiento interno depende del 
+sistema operativo. Se implementa los llamados múltiples hilos (threads) o 
+múltiples procesos. 
+#### 2. Multitarea cooperativa:
+- En este modelo, ya no se depende del sistema operativo por completo para 
+cambiar entre tareas, se programa puntos explícitos en la aplicación
+donde se permite que otras se ejecuten. Las tareas operan bajo el esquema
+de cooperación, donde se indica explícitamente: "Pauso mi tarea por un 
+momento; pueden ejecutar otras tareas".
+
+### **Comprensión de procesos, subprocesos, multihilos y multiprocesamiento**
+
+#### 1. Procesos:
+- Se trata de una aplicación que se ejecuta en su propio espacio de memoria, 
+al que otras aplicaciones no tienen acceso. Varios procesos pueden ejecutarse 
+en un mismo equipo; por ejemplo, si utilizamos una CPU con varios núcleos, 
+podemos ejecutar múltiples procesos simultáneamente. En el caso de una CPU 
+con un solo núcleo, es posible ejecutar varias aplicaciones al mismo tiempo 
+mediante segmentación temporal (time slicing). Cuando el sistema operativo 
+emplea este mecanismo, cambia automáticamente entre los procesos en 
+ejecución después de cierto tiempo.
+
+#### 2. Hilos:
+- Los hilos pueden considerarse procesos de menor peso. Además, representan 
+la mínima unidad de ejecución que un sistema operativo puede gestionar. 
+A diferencia de los procesos, los hilos no poseen memoria propia; 
+en cambio, comparten la memoria del procesos que los creó. Los hilos
+siempre están asociados al proceso que los generó. Un proceso, 
+siempre tendrá un hilo asociado (hilo principal). Un proceso también puede
+crear hilos adicionales llamados hilos de trabajo. Al igual que los 
+procesos, los hilos pueden ejecutarse en paralelo en CPUs multinúcleo. 
+
+## ***2. Procesos y subprocesos en una aplicación sencilla de Python***
+
+```python
+import os
+import threading
+
+print(f'Proceso de Python en ejecución con id de proceso: {os.getpid()}')
+
+total_threads = threading.active_count()
+thread_name = threading.current_thread().name
+
+print(f'Python está ejecutando actualmente {total_threads} hilo(s).')
+print(f'El hilo actual es {thread_name}.') 
+```
+
+```plaintext
+SALIDA:
+Proceso de Python en ejecución con id de proceso: 13524
+Python está ejecutando actualmente 1 hilo(s).
+El hilo actual es MainThread.
+```
+
+Este código simplemente muestra el ID del proceso en el que se ejecuta
+Python y la cantidad de hilos activos en ese momento. Esto permite 
+conocer cómo Python maneja los hilos. 
+
+## ***3. Creación de una aplicación Python multihilo***
+
+```python
+import threading
+
+def hello_from_thread():
+    print(f'Hola desde el hilo {threading.current_thread()}!')
+    
+    
+hello_thread = threading.Thread(target=hello_from_thread)
+hello_thread.start()
+
+total_threads = threading.active_count()
+thread_name = threading.current_thread().name
+
+print(f'Python está ejecutando actualmente {total_threads} hilo(s).')
+print(f'El hilo actual es {thread_name}.')
+ 
+hello_thread.join()
+```
+
+```plaintext
+SALIDA:
+Hola desde el hilo <Thread(Thread-1 (hello_from_thread), started 27672)>!
+Python está ejecutando actualmente 2 hilo(s).
+El hilo actual es MainThread.
+```
+
+En este código definimos una función que imprime un mensaje desde un hilo.
+Se crea e inicia un hilo secundario, se obtiene el número total de hilos 
+y después el nombre del hilo actual. 
+
+## ***4. Creando múltiples procesos***
+
+```python
+
+```
