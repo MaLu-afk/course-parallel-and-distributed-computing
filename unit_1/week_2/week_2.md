@@ -19,7 +19,7 @@ Supongamos que tenemos un programa que necesita descargar cinco archivos grandes
     + Cuando el hilo recibe datos del servidor, procesa esa información y luego vuelve a esperar. Este ciclo se repite hasta que se termine de descargar. 
 
 #### Beneficios:
-    + Se maximiza la eficiencia del sistema y se minimiza el tiempo total de ejecución, ya que los hilos aprovechan tiempos de inactividad. Sin concurrencia se esperaría que un archivo termine de descargarse para pasar a la siguiente descarga.
++ Se maximiza la eficiencia del sistema y se minimiza el tiempo total de ejecución, ya que los hilos aprovechan tiempos de inactividad. Sin concurrencia se esperaría que un archivo termine de descargarse para pasar a la siguiente descarga.
 
 ## 2. Paralelismo:
 
@@ -46,9 +46,9 @@ Supongamos que tenemos un programa que calcula los números primos entre 1 y 10 
     + Terminado la ejecución de los procesos, sus resultados (los números primos de cada rango) se combinan para producir la lista final.
 
 #### Beneficio: 
-    + El trabajo se divide entre núcleos, reduciones significativamente el tiempo de cálculo en comparación con un solo núcleo.
++ El trabajo se divide entre núcleos, reduciones significativamente el tiempo de cálculo en comparación con un solo núcleo.
 
 ## Diferencias:
-    + **Concurrencia:** Las tareas son ejecutadas intercaladas. Ideal para I/O-boun, donde hay tiempo de espera significativo.
-    + **Paralelo:** Las tareas son ejecutadas en múltiples núcleos. Ideal para CPU-bound, donde los cálculos demandan recursos intensivos.
++ **Concurrencia:** Las tareas son ejecutadas intercaladas. Ideal para I/O-boun, donde hay tiempo de espera significativo.
++ **Paralelo:** Las tareas son ejecutadas en múltiples núcleos. Ideal para CPU-bound, donde los cálculos demandan recursos intensivos.
 
