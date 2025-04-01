@@ -49,6 +49,106 @@ Supongamos que tenemos un programa que calcula los números primos entre 1 y 10 
 + El trabajo se divide entre núcleos, reduciones significativamente el tiempo de cálculo en comparación con un solo núcleo.
 
 ## Diferencias:
-+ **Concurrencia:** Las tareas son ejecutadas intercaladas. Ideal para I/O-boun, donde hay tiempo de espera significativo.
++ **Concurrencia:** Las tareas son ejecutadas intercaladas. Ideal para I/O-bound, donde hay tiempo de espera significativo.
 + **Paralelo:** Las tareas son ejecutadas en múltiples núcleos. Ideal para CPU-bound, donde los cálculos demandan recursos intensivos.
 
+# II. Problemas clave
+## 1. Race conditions: 
+
+Un race condition ocurre cuando múltiples hilos o procesos acceden y modifican un recurso compartido de forma no sincronizada. Esto puede generar errores impredecibles.
+
+### Ejemplo práctico: 
+
+Supongamos que tenemos un contador global llamado `contador` que debe incrementar dos hilos simultáneamente.
+
+```python
+import threading
+import time
+
+contador = 0
+
+def incrementar():
+    global contador
+    temporal = contador
+    print(f"Hilo {threading.current_thread().name} leyó: {temporal}")
+    time.sleep(0.1)
+    temporal += 1
+    contador = temporal
+    print(f"Hilo {threading.current_thread().name} escribió: {temporal}")
+
+# Crear 2 hilos
+hilo1 = threading.Thread(target=incrementar, name="Hilo-1")
+hilo2 = threading.Thread(target=incrementar, name="Hilo-2")
+
+hilo1.start()
+hilo2.start()
+
+hilo1.join()
+hilo2.join()
+
+print(f"\nValor final del contador: {contador} (debería ser 2)")
+```
+
+```plaintext
+SALIDA:
+Hilo Hilo-1 leyó: 0
+Hilo Hilo-2 leyó: 0
+Hilo Hilo-2 escribió: 1
+Hilo Hilo-1 escribió: 1
+
+Valor final del contador: 1 (debería ser 2)
+```
+
+Este código, nos ayuda a entender que en escenarios reales, los retardos son comunes en sistemas distribuidos o con alta concurrencia. De esa manera, se puede notar el problema de condición de carrera.
+
+#### Pasos: 
+1. Inicio de los hilos
+    + El hilo A y el hilo B ejecutan la función incrementar() al mismo tiempo.
+2. Acceso al recurso compartido
+    + El hilo A lee contador = 0 y guarda en la variable temporal.
+    + Antes de que el hilo A pueda escribir el nuevo valor (1) en el contador, hilo B también lee contador = 0.
+3. Resultado incorrecto
+    + Ambos hilos escriben contador = 1, ignorando el trabajo del otro hilo. El valor correcto debería haber sido contador = 2.
+
+#### Solución: Utilizar técnica de sincronización, como un lock:
+
+```python
+import threading
+import time
+
+contador = 0
+lock = threading.Lock()
+
+def incrementar():
+    global contador
+    with lock:
+        temporal = contador
+        print(f"Hilo {threading.current_thread().name} leyó: {temporal}")
+        time.sleep(0.1)
+        temporal += 1
+        contador = temporal
+        print(f"Hilo {threading.current_thread().name} escribió: {temporal}")
+
+hilo1 = threading.Thread(target=incrementar, name="Hilo-1")
+hilo2 = threading.Thread(target=incrementar, name="Hilo-2")
+
+hilo1.start()
+hilo2.start()
+
+hilo1.join()
+hilo2.join()
+
+print(f"\nValor final del contador: {contador} (debería ser 2)")
+```
+
+```plaintext
+SALIDA:
+Hilo Hilo-1 leyó: 0
+Hilo Hilo-1 escribió: 1
+Hilo Hilo-2 leyó: 1
+Hilo Hilo-2 escribió: 2
+
+Valor final del contador: 2 (debería ser 2)
+```
+
+Gracias al uso de Lock, podemos garantizar que no haya condiciones de carrera al acceder a un recurso compartido, ya que bloquea el acceso cuando un hilo está usando la variable compartida, impidiendo que otros hilos o tareas se ejecuten en ese mismo fragmento de código.
