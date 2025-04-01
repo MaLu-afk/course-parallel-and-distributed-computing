@@ -152,3 +152,53 @@ Valor final del contador: 2 (debería ser 2)
 ```
 
 Gracias al uso de Lock, podemos garantizar que no haya condiciones de carrera al acceder a un recurso compartido, ya que bloquea el acceso cuando un hilo está usando la variable compartida, impidiendo que otros hilos o tareas se ejecuten en ese mismo fragmento de código.
+
+#### Ejercicio 1: Race Conditions con Threads
+
+**Objetivo:** Mostrar cómo el acceso no controlado a recursos compartidos causa incosistencias.
+
+```python
+import threading
+
+contador = 0
+
+def incrementar():
+    global contador
+    temporal = contador
+    print(f"Hilo {threading.current_thread().name} leyó: {contador}\n")
+    for _ in range(100000):
+        temporal += 1
+    contador = temporal
+    print(f"Hilo {threading.current_thread().name} escribió: {contador}\n")
+
+
+hilos = []
+for i in range(1,5):
+    hilo = threading.Thread(target=incrementar, name=i)
+    hilos.append(hilo)
+    hilo.start()
+
+for hilo in hilos:
+    hilo.join()
+
+print(f"\nValor final del contador: {contador} (debería ser {len(hilos)})")
+```
+
+```plaintext
+SALIDA:
+Hilo 1 leyó: 0
+Hilo 1 escribió: 100000
+Hilo 2 leyó: 100000
+Hilo 3 leyó: 100000
+Hilo 2 escribió: 200000
+Hilo 4 leyó: 200000
+Hilo 4 escribió: 300000
+Hilo 3 escribió: 200000
+
+Valor final del contador: 200000 (debería ser 400000)
+```
+
+**Discusión:** 
++ ¿Por qué el resultado no es 400,000?
+
++ Demostrar que contador += 1 no es una operación atómica.
