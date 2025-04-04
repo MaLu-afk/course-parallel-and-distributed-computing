@@ -202,3 +202,22 @@ Valor final del contador: 200000 (debería ser 400000)
 + ¿Por qué el resultado no es 400,000?
 
 + Demostrar que contador += 1 no es una operación atómica.
+
+
+
+# Ejemplos
+
+## Mecanismos de sincronización y comunicación:
+
+A continuación se muestra los mecanismo más comunes:
++ Uso de los locks (cerrojos) para proteger las regiones críticas.
++ Semáforos para gestionar acceso a recursos compartidos.
++ Variables de condición y eventos para la señalización entre hilos.
+
+### Ejemplo 1: Condición de carrera y uso de lock
+
+En este ejemplo se muestra la situación donde dos hilos intenan modificar una variable compartida llamada contador, causando la condición de carrera. Luego otra usando Lock.
+
+```python
+
+```
