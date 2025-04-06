@@ -2,31 +2,25 @@ import threading
 import time
 
 contador = 0
-num_hilos = 1000
+num_hilos = 8
 
 lock = threading.Lock()
 
 def incrementar_sin_lock():
     global contador
-    temporal = contador
-    
     for _ in range(100000):
-        temporal +=1
-    contador = temporal
+        contador +=1
 
 def incrementar_con_lock():
     global contador
     with lock:
-        temporal = contador
-      
         for _ in range(100000):
-            temporal +=1
-        contador = temporal
+            contador +=1
         
 # Ejecución sin lock
 hilos_1 = []
 for i in range (1,num_hilos+1):
-    hilo = threading.Thread(target=incrementar_sin_lock, name=i)
+    hilo = threading.Thread(target=incrementar_sin_lock)
     hilos_1.append(hilo)
     hilo.start()
     
@@ -40,7 +34,7 @@ contador = 0
 
 hilos_2 = []
 for i in range (1,num_hilos+1):
-    hilo = threading.Thread(target=incrementar_con_lock, name=i)
+    hilo = threading.Thread(target=incrementar_con_lock)
     hilos_2.append(hilo)
     hilo.start()
     
