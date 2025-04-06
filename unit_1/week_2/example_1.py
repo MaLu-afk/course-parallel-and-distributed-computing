@@ -1,45 +1,52 @@
 import threading
-import time
 
 contador = 0
-num_hilos = 8
+num_hilos = 16
+iteraciones = 10000
 
 lock = threading.Lock()
 
 def incrementar_sin_lock():
     global contador
-    for _ in range(100000):
-        contador +=1
+    
+    for _ in range(iteraciones):
+        temp = contador
+        [x for x in range(50)]
+        contador = temp +1
 
 def incrementar_con_lock():
     global contador
-    with lock:
-        for _ in range(100000):
-            contador +=1
+    
+    for _ in range(iteraciones):
+        with lock:
+            temp = contador 
+            [x for x in range(50)]
+            contador = temp +1
+
+def ejecutar_prueba(con_lock):
+    global contador
+    contador = 0
+    
+    hilos = []
+    for _ in range(num_hilos):
+        target = incrementar_con_lock if con_lock else incrementar_sin_lock
+        hilo = threading.Thread(target=target)
+        hilos.append(hilo)
+        hilo.start()
         
-# Ejecución sin lock
-hilos_1 = []
-for i in range (1,num_hilos+1):
-    hilo = threading.Thread(target=incrementar_sin_lock)
-    hilos_1.append(hilo)
-    hilo.start()
+    for hilo in hilos:
+        hilo.join()
+        
+    numero_esperado = num_hilos * iteraciones
     
-for hilo in hilos_1:
-    hilo.join()
+    print(f'{"CON LOCK" if con_lock else "SIN LOCK"}')
+    print(f'Valor esperado: {numero_esperado}')
+    print(f'Valor obtenido: {contador}')
 
-print(f'Valor sin lock puede ser erroneo: {contador}')
+print("DEMOSTRACIÓN DE CONDICIÓN DE CARRERA")
+print("====================================")
 
-# Ejecución con lock
-contador = 0
+ejecutar_prueba(con_lock=False)
+ejecutar_prueba(con_lock=True)
 
-hilos_2 = []
-for i in range (1,num_hilos+1):
-    hilo = threading.Thread(target=incrementar_con_lock)
-    hilos_2.append(hilo)
-    hilo.start()
     
-for hilo in hilos_2:
-    hilo.join()
-    
-print("Valor con lock (correcto):", contador)
-

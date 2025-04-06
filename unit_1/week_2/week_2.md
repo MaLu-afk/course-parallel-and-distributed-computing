@@ -203,7 +203,8 @@ Valor final del contador: 200000 (debería ser 400000)
 
 + Demostrar que contador += 1 no es una operación atómica.
 
-
+---
+---
 
 # Ejemplos
 
@@ -219,5 +220,68 @@ A continuación se muestra los mecanismo más comunes:
 En este ejemplo se muestra la situación donde dos hilos intenan modificar una variable compartida llamada contador, causando la condición de carrera. Luego otra usando Lock.
 
 ```python
+import threading
 
+contador = 0
+num_hilos = 16
+iteraciones = 10000
+
+lock = threading.Lock()
+
+def incrementar_sin_lock():
+    global contador
+    
+    for _ in range(iteraciones):
+        temp = contador
+        [x for x in range(50)]
+        contador = temp +1
+
+def incrementar_con_lock():
+    global contador
+    
+    for _ in range(iteraciones):
+        with lock:
+            temp = contador 
+            [x for x in range(50)]
+            contador = temp +1
+
+def ejecutar_prueba(con_lock):
+    global contador
+    contador = 0
+    
+    hilos = []
+    for _ in range(num_hilos):
+        target = incrementar_con_lock if con_lock else incrementar_sin_lock
+        hilo = threading.Thread(target=target)
+        hilos.append(hilo)
+        hilo.start()
+        
+    for hilo in hilos:
+        hilo.join()
+        
+    numero_esperado = num_hilos * iteraciones
+    
+    print(f'{"CON LOCK" if con_lock else "SIN LOCK"}')
+    print(f'Valor esperado: {numero_esperado}')
+    print(f'Valor obtenido: {contador}')
+
+print("DEMOSTRACIÓN DE CONDICIÓN DE CARRERA")
+print("====================================")
+
+ejecutar_prueba(con_lock=False)
+ejecutar_prueba(con_lock=True)
 ```
+
+```plaintext
+SALIDA:
+DEMOSTRACIÓN DE CONDICIÓN DE CARRERA
+====================================
+SIN LOCK
+Valor esperado: 160000
+Valor obtenido: 158354
+CON LOCK
+Valor esperado: 160000
+Valor obtenido: 160000
+```
+
+Este código muestra cómo una condición de carrera (es decir, la cantidad de iteraciones que cada hilo puede realizar) puede modificar un recurso compartido y provocar datos corruptos. En la función sin lock, se puede notar que durante la iteración se agrega [x for x in range(50)] para simular el procesamiento de una operación, como por ejemplo el pago de un cliente, momento en el cual otro hilo puede intervenir y modificar el recurso. En la segunda función, se añade el lock, lo que permite manejar operaciones de forma atómica; es decir, si una sección del código se está ejecutando (utilizando el recurso), ningún otro hilo puede intervenir hasta que finalice.
