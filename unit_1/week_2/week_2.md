@@ -526,5 +526,6 @@ El modelo de ejecución de Python se basa en bytecode y ticks. El bytecode es la
 Para problemas de concurrencia prácticos, el patrón productor-consumidor es un ejemplo práctico. Se implementa típicamente con una cola compartida (deque) y variables de condición. Los productores añaden elementos a la cola y notifican a los consumidores, que esperan cuando la cola está vacía. Este modelo es útil para pipelines de procesamiento de datos, donde la producción y consumo pueden tener velocidades diferentes. La sincronización mediante Condition garantiza que los consumidores no consuman CPU mientras esperan, haciendo el patrón eficiente. La elección entre locks, semáforos o condiciones depende de la naturaleza del problema de concurrencia a resolver.
 
 La comunicación y sincronización juegan un papel importante, como nos hemos podido dar cuenta. La comunicación permite el intercambio de datos entre hilos y procesos, mientras que la sincronización se refiere al control de acceso a los recursos compartidos para evitar condiciones de carrera y garantizar la correcta ejecución.
+
 ---
 ---
