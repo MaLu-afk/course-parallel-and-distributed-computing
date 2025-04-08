@@ -529,3 +529,96 @@ La comunicación y sincronización juegan un papel importante, como nos hemos po
 
 ---
 ---
+
+# Ejercicios de programación concurrente, paralela y distribuida
+
+Con estos ejercicios, vamos a reforzar los conceptos de concurrencia, paralelismo y programación distribuida mediante problemas prácticos.
+
+## Ejercicios básicos
+
+1. Race condition básica: Crea dos hilos que incrementen una variable global `contador = 0` 100,000 veces cada uno. Muestra el resultado final y explica por qué no es 200,000. Luego, corrige el código usando Lock.
+
+```python
+import threading
+
+contador = 0
+lock = threading.Lock()
+
+def incrementar(lock_activado):
+    global contador
+    print("Ejecutando hilo ...")
+    for _ in range(100000):
+        if lock_activado:
+            with lock:
+                temp = contador
+                [i for i in range(1)]
+                temp +=1
+                contador = temp
+        else:
+            temp = contador
+            [i for i in range(1)]
+            temp +=1
+            contador = temp
+            
+usar_lock = True
+        
+hilo1 = threading.Thread(target=incrementar, args=(usar_lock,))
+hilo2 = threading.Thread(target=incrementar, args=(usar_lock,))
+
+hilo1.start()
+hilo2.start()
+
+hilo1.join()
+hilo2.join()
+
+print(f'Valor del contador: {contador}')
+```
+
+En el caso donde se ejecuta sin el uso del lock, la lista por comprensión introduce una pequeña demora entre la lectura y la escritura del contador. Esto hace que ambas operaciones no ocurran de forma inmediata o atómica, lo que genera una ventana de riesgo. Durante ese lapso, el sistema puede realizar un cambio de contexto y darle control a otro hilo, que también accede al contador compartido. Si esto ocurre, ambos hilos pueden leer el mismo valor inicial antes de escribirlo, lo que lleva a resultados incorrectos. Por eso, sin sincronización, se presentan condiciones de carrera. El problema se soluciona habilitando el uso del lock, lo que garantiza que la sección crítica se ejecute de forma atómica, impidiendo que otros hilos interfieran durante la modificación del recurso compartido.
+
+2. Hilos para I/O-bound: Simula la descarga de 5 URLs usando `threading`. Cada "descarga" debe tomar 1 segundo (usar time.sleep(1)). Mide el tiempo total y compáralo con una versión secuencial.
+
+```python
+import threading
+import time
+
+def descarga_concurrente():
+    time.sleep(1)
+
+def descarga_secuencial(num_descargas):
+    start = time.time()
+    for i in range(1, num_descargas+1):
+        print(f'Descargando archivo: {i} ...')
+        time.sleep(1)
+    end = time.time()
+    tiempo_total = end - start
+    print(f'El tiempo total de descarga es: {tiempo_total}.')
+    print(f'Descarga completa de los {num_descargas} archivos.')
+    
+cantidad_archivos = 5
+
+hilos = []
+for i in range(cantidad_archivos):
+    hilo = threading.Thread(target=descarga_concurrente)
+    hilos.append(hilo)
+    
+start = time.time()
+for hilo in hilos:
+    hilo.start()
+for hilo in hilos:
+    hilo.join()
+end = time.time()
+tiempo_total = end - start
+print(f'El tiempo total de descarga es: {tiempo_total}.')
+print(f'Descarga completa de los {cantidad_archivos} archivos.')
+print("------------------------------------------")
+descarga_secuencial(cantidad_archivos)
+```
+
+Se puede observar que el uso de hilos mejora significativamente la eficiencia en operaciones I/O-bound. En el código, la descarga secuencial tomó un poco más de 5 segundos, ya que cada archivo se descarga uno tras otro. En cambio, al usar hilos, todas las descargas se realizaron de forma concurrente, completándose en menos de 2 segundos. Esto demuestra la utilidad y necesidad de utilizar hilos en problemas donde las operaciones de I/O-bound son el principal cuello de botella.
+
+3. Comunicación con colas: Usa `multiprocessing.Queue` para que un proceso padre envíe una lista de números [1, 2, 3, 4] a un proceso hijo, quien debe calcular la suma y devolver el resultado. 
+
+```python
+
+```
