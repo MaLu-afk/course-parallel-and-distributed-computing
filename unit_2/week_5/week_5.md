@@ -50,5 +50,21 @@ int main(int argc, char* argv[]) {
 
 Este código incluye las librerias de mpi el cual contiene las funciones que permiten la creación, ejecución y gestión de procesos paralelos. En la función principal se manda dos argumentos que son útiles para que la MPI pueda mantener la comunicación entre los procesos. 
 
+## Conceptos claves y resumen:
+
++ **MPI:** Es una librería estándar utilizada para desarrollar programas que serán ejecutadas en sistemas distribuidos o paralelos, permitiendo la comunicación entre procesos que se ejecutan en diferentes nodos o núcleos.
+
++ **Inicialización y finalización:** 
+    - MPI_init: necesaria para la inicialización y la comunicación del entorno de ejecución de MPI.
+    - MPI_finalize: limpia el entorno de MPI y libera los recursos utilzados.
+
++ **Proceso, rank, número total de procesos:** Cada proceso tien su propio rank único (identificador), el conjunto de estos procesos se define el tamaño size. Esto permite la gestión de los procesos y la coordinación.
+
++ **Comunicación y ejecución concurrente:** En un ambiente de ejecución MPI (p. ej. el comando `mpiexec -n 4 ./programa`), se lanzará múltiples procesos que ejecutan el mismo código pero con diferentes valores rank, lo que permite paralelizar las tareas y coodinar la ejecución entre ellos. 
+
+# 5. Pruebas de verificación
+
+
+ 
 
 
