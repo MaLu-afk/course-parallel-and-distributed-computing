@@ -64,7 +64,15 @@ Este código incluye las librerias de mpi el cual contiene las funciones que per
 
 # 5. Pruebas de verificación
 
+```plaintext
+SALIDA:
 
- 
+Hola desde el proceso 0 de 4
+Hola desde el proceso 1 de 4
+Hola desde el proceso 2 de 4
+Hola desde el proceso 3 de 4
+```
+
+A cada proceso le corresponde un rank (identificador único) y también se muestra el número total de procesos.
 
 
