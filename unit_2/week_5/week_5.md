@@ -75,4 +75,50 @@ Hola desde el proceso 3 de 4
 
 A cada proceso le corresponde un rank (identificador único) y también se muestra el número total de procesos.
 
+---
+---
 
+# Programación Paralela en CPUs usando MPI
+
+El objetivo es comprender y aplicar los fundamentos de MPI para desarrollar programas en C++ que aprovechen los múltiples procesos en arquitecturas multicore o distribuidas.
+
+### Actividad 1 – Introductoria: “Hola mundo paralelizado con MPI”
+
+```cpp
+#include <iostream>
+#include <mpi.h>
+
+int main(int argc, char *argv[]) {
+	MPI_Init(&argc, &argv);
+
+	int rank, size;
+
+	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+	MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+	std::cout<< "Hola desde el proceso "<< rank << " de " << size << std::endl;
+
+	MPI_Finalize();
+	return 0;
+}
+```
+Al ejecutar el siguiente comando `mpiexec -n 4 .\exercise1.exe`
+
+```plaintext
+SALIDA:
+PS C:\Users\Magno Ricardo\Documents\test_enviroment\MPI\exercise1\x64\Debug> mpiexec -n 4 .\exercise1.exe
+Hola desde el proceso 1 de 4
+Hola desde el proceso 2 de 4
+Hola desde el proceso 0 de 4
+Hola desde el proceso 3 de 4
+```
+
+### Actividad 2 – Desafío: “Producto de matrices”
+
+```cpp
+
+```
+
+```plaintext
+
+```
