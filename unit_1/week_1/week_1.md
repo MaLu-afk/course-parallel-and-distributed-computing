@@ -1,3 +1,145 @@
+# Fundamentos de programación
+
+## Modelos de programación:
+
++ Secuencial.
++ Conurrente.
++ Paralela.
++ Distribuida.
++ Paralela y distribuida.
+
+## 1. Programación secuencial
+
+- Se refiere a que una acción sigue a otra.
+- La salida de una tarea es la entrada de la siguiente. 
+
+## 2. Programación concurrente
+
+- Capacidad de un computador de realizar varias tareas a la vez.
+- No necesariamente al mismo tiempo, es decir, en paralelo. Esto depende del número de procesadores (o cores) que tenga un computador.
+
+### ¿Cómo sabe el sistema operativo o el intérprete cuándo cambiar de un hilo a otro?
+
+- **En los sistemas operativos,** la planificación de procesos/hilos es responsabilidad del planificador (scheduler). Funciona con la combinación del temporizador del sistema (hardware timer) el cual genera interrupciones periódicas y el kernel del sistema operativo que responde ante esas interrupciones y decide si cambiar de contexto en caso haya hilos en espera.
+
+- **Intérprete,** en lenguajes como Python (CPython), el cambio de hilo ocurre internamente gracias a un contador de ticks de bytecode. Los contadores se reinician al llegar a un umbral y cede el GIL (Global Interpreter Lock) si hay otros hilos esperando.
+
+## 3. Programación paralela
+
+- Es una forma de cómputo en la que muchas instruciones se ejecutan simultáneamente, operando sobre problemas grandes que se pueden dividir en unos más pequeños, que luego son resueltos simultáneamente (en paralelo).
+
+## Comparación de los tres modelos
+
+| Aspecto | Secuencial | Concurrente | Paralelo |
+|-----|------|-----|-----|
+| **Definción** | Las tareas se ejecutan unas a otras | Las taras parecen ejecutarse al mismo tiempo (intercaladas) | Las tareas se ejecutan realmente al mismo tiempo |
+| **Consite en** | Una sola tarea en curso (un núcleo con un hilo) | Varias tareas activas, pero ejecutadas en un núcleo | Varias tareas ejecutándose simultáneamente en varios núcleos |
+| **Ventajas** | Simple de entender y depurar | Mejora la eficiencia en tareas I/O-bound (E/S, red) | Aumenta velocidad en tareas pesadas |
+| **Desventajas** | Ineficiente para múltiples tareas o esperas | Puede ser más lenta que la secuencial si hay mucha sincronización | Requiere cuidado en sincronización y múltiples núcleos |
+| **Ejemplos** | Concinar arroz, luego freír huevo | Poner el arroz a cocer, mientras tanto cortar verduras | Dos personas: una cocina el arroz, otra fríe el huevo al mismo tiempo |
+
+
+## 4. Programación distribuida
+
+- Es un modelo para resolver problemas de computación masiva utilizando un gran número de ordenadores organizados en clústeres en una infraestructura de telecomunicaciones (internet, redes privadas, etc.) distribuida.
+
+- **Ejemplo:** Se tiene un servidor que dividirá tres tareas y lo distribuirá por la red en tres servidores (una tarea para cada servidor).
+
+# Programación concurrente
+
+* Surge con la necesidad de dar soluciones con el máximo rendimiento.
+* Aplicaciones computacionales que demandan gran velocidad de cálculo:
+    - Visualización
+    - Bases de datos distribuidas
+    - Simulaciones
+    - Predicciones científicas
+* Afines a la concurrencia (relacionados estrechamente): 
+    - Sistemas distribuidos
+    - Sistemas en tiempo real
+
+* En 1972 apareció el lenguaje Pascal concurrente, era el primer lenguaje de alto nivel para este objetivo.
+
+* **Concurrencia:** la existencia de simultánea no implica ejecución al mismo tiempo.
+
+* Los procesos comparten el tiempo de ejecución de un único procesador disponible.
+
+* Conjunto de técnicas que permiten resolver problemas de comunicación y sincronización que se presentan cuando varios procesos concurrentes comparten recursos al mismo tiempo.
+
+* Propiedad básica para este tipo de programación es el no determinismo:
+    - En caso se tenga un solo procesador se desconoce si después de la ejecución de una instrucción habrá alguna interrupción para pasar de un proceso a otro.
+    - En caso del sistema mulltiprocesador las velocidades de los procesadores no están sincronizadas, por lo que no se conoce a priori cuál procesador va a ser el primero en ejecutar su siguiente instrucción.
+* Aprovechar el hardware: múltiples procesadores.
+* Incrementar productivada de la CPU.
+
+### Correción en sistemas concurrentes:
+
+- Es necesario de un modelo abstracto que permita verificar y corregir los sistemas concurrentes.
+- Cada problema concurrente puede aprovechar un tipo distinto de paralelismo (todo problema paralelo es concurrente pero no todo problema concurrente es paralelo). 
+- Si se requier trabajar en un ambiente independiente de la arquitectura (SOs) se debe plantear un modelo para verificar que sea correcto independientemente del hardware que se ejecute.
+
+    #### Exclusión mutua
+    + Es el mecanismo por el cual se asegura que procesos concurrentes no accedan a un mismo recurso al mismo tiempo.
+    + Se debe identificar regiones en donde los procesos tienen que acceder a variables (recursos) compartidas **"región crítica"**.
+    + Deben determinarse mecanismos de bloqueo para garantizar que cuando se salga de un proceso en ese momento participe otro en el acceso a la región crítica.
+
+### Sistemas concurrentes: Sincronización
+
+Existen tres tipos de procesos:
+
+- **Procesos independientes:** no se comunican entre sí, no requiere sincronización.
+- **Procesos cooperativos:** colaboran para realizar un trabajo, por ende, deben comunicarse entre sí y sincronicen sus actividades.
+- **Procesos en competencia:** Comparten un número finito de recursos del sistema por ejemplo periféricos, memoria, por tanto deben de competir para hacer uso de los recursos del sistema. También deben sincronizarse para comunicarse aunque sus labores sean independientes.
+- **Sincronización:** transmisión y recepción de señal con el fin de ejecutar el procesos cooperativos o en competencia.
+
+#### Ejemplo
+- En la siguiente instrucción: `$ cat lista1.txt, lista2.txt | wc -l`
+
+Esta instrucción crea dos procesos concurrentes: El primero ejecuta el programa cat, que concatenará el contenido de los archivos lista1 y lista2. El segundo ejecutará el programa wc (word count), que cuenta el número de lineas de la salida producida por cat.
+
+- En la siguiente instrucción: `$ grep búsqueda | sort | lpr`
+
+El comando grep: Global Regular Expression Print, busca líneas que contienen el texto "búsqueda" y lpr: Line Printer Request.
+
+
+***"Todo paralelismo es concurrente pero no tada concurrencia es paralela"***
+
+**Actividades ~ Procesos**
+
+#### Aplicaciones de la concurrencia en informática
++ Sistemas Operativos
++ Sistemas de gestión de bases de datos
++ Sistemas de tiempo real
++ Sistemas distribuidos
+
+### Concurrencia
+- **Inherente:** el entorno con el que interactúa tiene actividades simultáneas.
+- **Potencial:** no hay necesariamente concurrencia, pero se puede implementarse.
+
+### Ejercicios (situaciones reales)
+
+- 02 ejemplos de sistemas en la naturaleza que sean
+concurrentes
+- 02 sistemas inherentemente concurrentes
+- 02 sistemas potencialmente concurrentes (beneficios de la
+concurrencia)
+
+### Produciendo actividades concurrentes en el ordenador
+- **De forma manual:**
+    + Directamente sobre el hardware
+    + Usar/llamar a las librerías de software (PVM: Parallel Virtual Machine, pthreads)
+    + Implementar con lenguajes de alto nivel
+
+- **De forma automática:**
+    + El SO realiza la asignación automáticamente
+    + El compilador detecta concurrencia en los programas secuenciales
+
+page: 38
+
+
+
+---
+---
+
 ## ***1. Operaciones limitadas por E/S y por CPU***
 
 ```python
