@@ -3,7 +3,7 @@
 ## Modelos de programación:
 
 + Secuencial.
-+ Conurrente.
++ Concurrente.
 + Paralela.
 + Distribuida.
 + Paralela y distribuida.
