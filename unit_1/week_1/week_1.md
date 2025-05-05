@@ -325,12 +325,13 @@ proceso atenderClientes()
     mientras haya llamadas por atender hacer
         llamada = siguienteLlamada()
         asignarAgente(llamada)
+
         si llamada requiereEsperar() entonces
             ponerEnEspera(llamada)
-            atenderSiguienteLlamada()
-        sino
-            resolverConsulta(llamada)
         fin si
+
+        resolverConsulta(llamada)
+        finalizaAtencion(llamada)
     fin mientras
 fin proceso
 ```
