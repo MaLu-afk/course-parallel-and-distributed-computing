@@ -178,6 +178,225 @@ Usando sentencias concurrentes:
 + ¿La programación secuencial puede aprovechar los múltiples procesadores de un ordenador?
     - No, la programación secuencial no puede aprovechar los múltiples procesadores o núcleos, ya que las instrucciones se ejecutan una tras otra en un solo hilo de ejecución. Para sacar provecho del hardware multinúcleo es necesario utilizar programación paralela o concurrente, dividiento la carga de trabajo en varios hilos o procesos que pueden ejecutarse simultáneamente.
 
+---
+---
+
+## Ejemplos de la vida cotidiana
+
+A continuación se representan paradigmas de programación.
+
+1. **Programación concurrente -> Cajero de un banco atendiendo clientes:**
+
+    - Un cajero atiende a múltiples clientes en un banco. Puede iniciar la atención de un cliente, pero si necesita esperar para la aprobación o documentación, puede comenzar con otro cliente en paralelo sin bloquearse.
+
+- **Pseudocódigo: Cajero de banco**
+
+```plaintext
+proceso atenderClientes()
+    mientras haya cliente esperando en la fila hacer
+        cliente = siguienteCliente()
+        iniciarAtencion(cliente)
+
+        si cliente requiere autorización externa entonces
+            esperarAutorizacion()
+        fin si
+
+        procesarTransaccion(cliente)
+        finalizarAtencion(cliente)
+    fin mientras
+fin proceso
+```
++ El cajero puede empezar con un cliente, pero si necesita una autorización, en lugar de esperar, puede comenzar con atender otro cliente en simultáneo.
+
+2. **Programación paralela -> Cocinando varios platillos a la vez:**
+
+    - Un chef prepara diferentes platos en paralelo en una cocina, asignando tareas a varios asistentes. Cada asistente se enfoca en una tarea específica al mismo tiempo (uno corta verduras, otro cocina la carne, otro lava platos).
+
+- **Pseudocódigo: Cocina con varios asistentes**
+
+```plaintext
+proceso prepararComida()
+    paralelo
+        cortarVerduras()
+        cocinarCarne()
+        hervirAgua()
+        lavarPlatos()
+    fin paralelo
+    servirPlato()
+fin proceso
+```
++ Las tareas se ejecutan al mismo tiempo (si hay suficientes recursos) para optimizar el proceso de cocinar.
+
+3. **Programación distribuida -> Reparto de paquetes en una ciudad:**
+
+    - Una empresa de mensajería tiene múltiples repartidores, cada uno encargado de entregar paquetes en distintas zonas. Cada respartidor opera de manera independiente, pero todos trabajan hacia el mismo objetivo.
+
+- **Pseudocódigo: Reparto de paquetes**
+
+```plaintext
+proceso repartirPaquetes()
+    listaRepartidores = asignarRepartidores()
+    paralelo para cada repartidor en listaRepartidores hacer
+        mientras repartidor tenga paquetes hacer
+            destino = siguienteDestino(repartidor)
+            entregaPaquete(destino)
+        fin mientras
+    fin paralelo
+fin proceso
+```
++ Cada repartidor trabaja de forma independiente en diferentes áreas de la ciudad. La entrega de paquetes está distribuida entre múltiples trabajadores, como ocurre en sistemas de computación distribuida.
+
+4. **Programación concurrente -> Profesor atendiendo estudiantes y corrigiendo exámenes:**
+
+    - Un profesor alterna entre corregir exámenes y resolver dudas de estudiantes. Si un estudiante hace una pregunta compleja que requiere investigación, el profesor puede pausar esa interacción y retornar la corrección de exámenes mientras espera.
+
+- **Pseudocódigo: Profesor gestiona tareas**
+
+```plaintext
+proceso gestionarTareas()
+    mientras haya tareas pendientes hacer
+        tarea = seleccionarTarea()
+        si tarea es "corregirExamen" entonces
+            corregirProximoExamen()
+        sino si tarea es "atenderEstudiante" entonces
+            estudiante = siguienteEstudiante()
+            si preguntaRequiereInvestigacion(estudiante) entonces
+                programarInvestigacion(estudiante)
+                continuar
+            fin si
+            responderPregunta(estudiante)
+        fin si
+    fin mientras    
+fin proceso
+```
++ El profesor maneja múltiples tareas de forma concurrente, cambiando entre ellas cuando requiere tiempo de espera, similar a cómo un sistema concurrente gestiona hilos.
+
+5. **Programación paralela -> Línea de ensamblaje en una fábrica:**
+
+    - En una fábrica de automóviles, diferentes estaciones trabajan al mismo tiempo: una ensambla el motor, otra instala las puertas y una pinta el chasis. Todas colaboran para completar el vehículo de manera eficiente.
+
+- **Pseudocódigo: Fábrica de automóviles**
+
+```plaintext
+proceso ensamblarAuto()
+    paralelo
+        ensamblarMotor()
+        instalarPueras()
+        pintarChasis()
+    fin paralelo
+    ensamblarPartesVehiculo()
+fin proceso
+```
++ Las tareas se ejecutan en paralelo utilizando recursos independientes (estación de trabajo), optimizando el tiempo de producción.
+
+6. **Programación distribuida -> Red de bibliotecas municipales:**
+
+    - Cada biblioteca en una ciudad gestiona préstamos y devoluciones de libros de forma independiente, pero todas actualizan un catálogo centralizado en la nube para reflejar disponibilidad en tiempo real.
+
+- **Pseudocódigo: Biblioteca**
+
+```plaintext
+proceso gestionarBibliotecas()
+    listaBibliotecas = obtenerBibliotecas() 
+    paralelo para cada biblioteca en listaBibliotecas hacer
+        mientras haya actividad entonces
+            si hayPrestamo() entonces
+                libro = seleccionarLibro()
+                registrarPrestamo(libro, biblioteca)
+                actualizarCatalogoCentral(libro)
+            sino si hayDevolucion() entonces
+                libro = aceptarDevolucion()
+                actualizarCatalogoCentral(libro)
+            fin si 
+        fin mientras
+    fin paralelo
+fin proceso
+```
++ Cada nodo (biblioteca) opera de manera autónoma, pero colabora con un sistema central, similar a los nodos en una red distribuida.
+
+7. **Programación concurrente -> Call center con múltiples agentes:**
+
+    - En un call center, varios agentes atienden llamadas simultáneamente. Si un cliente necesita esperar para consultar información, el agente puede colocar la llamada en espera y atender a otro cliente.
+
+- **Pseudocódigo: Atención al cliente**
+
+```plaintext
+proceso atenderClientes()
+    mientras haya llamadas por atender hacer
+        llamada = siguienteLlamada()
+        asignarAgente(llamada)
+        si llamada requiereEsperar() entonces
+            ponerEnEspera(llamada)
+            atenderSiguienteLlamada()
+        sino
+            resolverConsulta(llamada)
+        fin si
+    fin mientras
+fin proceso
+```
++ Múltiples agentes gestionan tareas (llamadas) concurrentemente, aprovechando tiempos de espera para mejorar la eficiencia.
+
+8. **Programación concurrente -> Semáforo inteligente gestionando tráfico:**
+
+    - Un semáforo inteligente alterna entre direcciones de tráfico. Si detecta una emergencia (e.g., ambulancia), prioriza su paso mientras pausa temporalmente el flujo de otros vehículos, retomando después el ciclo normal.
+
+- **Pseudocódigo: Semáforos**
+
+```plaintext
+proceso gestionarTrafico()
+    mientras true hacer
+        cambiarALuzVerde(direccion_principal)
+        si detectaEmergencia() entonces
+            activarPrioridadEmergencia()
+            esperarPasoEmergencia()
+            reanudarCicloNormal()
+        fin si
+        cambiarALuzRoja(direccion_principal)
+        cambiarALuzVerde(direccion_secundaria)
+    fin mientras
+fin proceso
+```
++ El semáforo maneja múltiples eventos (flujo normal y emergencia) de forma concurrente, cambiando entre tareas según prioridades, similar a la gestión de hilos en sistemas concurrentes.
+
+9. **Programación paralela -> Equipo de limpieza en un hotel:**
+
+    - Un equipo de limpieza trabaja en paralelo: un grupo limpia habitaciones, otro lava la ropa de cama y un tercero abastece los carros de servicio. Todas las tareas avanzan simultáneamente para preparar el hotel rápidamente. 
+
+- **Pseudocódigo: Limpieza de hotel**
+
+```plaintext
+proceso prepararHotel()  
+    paralelo  
+        limpiarHabitaciones()  
+        lavarRopa()  
+        reabastecerCarros()  
+    fin paralelo  
+    inspeccionarCalidad()  
+fin proceso  
+```
++ Las tareas se ejecutan en paralelo utilizando recursos independientes (empleados), reduciendo el tiempo total de preparción, análogo al uso de múltiples núcleos en computación paralela.
+
+10. **Programación distribuida -> Red de sensores ambientales:**
+
+    - Sensores distribuidos en una ciudad miden calidad del aire, ruido temperatura. Cada sensor envía datos a un servidor central, que procesa la información para generar reportes en tiempo real.
+
+
+- **Pseudocódigo: Sensores ambientales**
+
+```plaintext
+proceso monitorearAmbiente()  
+    listaSensores = obtenerSensores()  
+    paralelo para cada sensor en listaSensores hacer  
+        mientras true hacer  
+            dato = capturarDato(sensor)  
+            enviarAlServidorCentral(dato)  
+            esperar(intervalo)  
+        fin mientras  
+    fin paralelo  
+fin proceso  
+```
++ Cada sensor opera de forma autónoma (nodos distribuidos), pero colaboran con sun sistema centralizado, reflejando la coordianción en sistemas distrubuidos.
+
 
 ---
 ---
