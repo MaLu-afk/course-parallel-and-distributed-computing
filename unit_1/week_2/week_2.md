@@ -1,3 +1,157 @@
+# Modelando el problema
+
+- **Tareas:** Conjunto de instrucciones para el procesador.
+- **Granularidad:** Tamaño de cada tarea y la independencia de las demás.
+- **Scheduling (planificación):** Proceso para asignar tareas a los procesos o hilos, y les da un orden de ejecución.
+
+## Conceptos claves
++ **Sincronización:** coordinación de procesos e hilos, para que haya una ejecución correcta.
++ **Mapping:** Asignación de procesos e hilos a unidades de procesamiento, procesadores o núcleos. Manejada por el sistema operativo pero también por el código.
+
+## Arquitecturas paralelas
+
+- Zócalos
+- Procesadores
+- Núcleos
+- Hilos
+
+Sistemas con 2 o más procesadores. Pueden ejecutar varias instrucciones en simultáneo.
+
+- Fuertemente acoplados
+    + Procesadores comparten memoria y reloj
+    + Denominados "multiprocesadores"
+    + Ventajas: Incremento de velocidad de procesamiento
+    + Desventaja: Solo escala a decenas o cientos de procesadores
+- Débilmente acoplados
+    + No comparten memoria ni reloj
+    + Sistemas distribuidos
+
+## Tipos de paralelismo
+
+- **A nivel de bits:** Tamaño de los datos que puede trabajar el procesador.
+- **A nivel de instrucción:** Cambia el orden de las instrucciones de un programa y juntarlas en grupos para posteriormente ser ejecutados paralelo sin alterar el resultado final del programa.
+- **A nivel de tarea:** Casa procesador realiza la misma tarea sobre un subconjunto independiente de datos.
+
+## Memoria de computación paralela
+
+1. **Memoria compartida:**
+    + Los procesos comparten espacios de memoria.
+    + Lectura/Escritura asíncrona.
+    + No se especifica modo de comunicación.
+    + Locks y semáforos para controlar acceso a memoria compartida.
+
+2. **Uniform Memory Access (UMA):** 
+    + Común en sistemas con Symmetric Multiprocessor (SMP). 
+    + Procesadores idénticos. 
+    + Igual acceso y tiempo de memoria. 
+    + Coherencia de caché, actualización de la locación de memoria compartida.
+
+3. **Non-Uniform Memory Access (NUMA):** 
+    + Vinculación física de dos o más SMP.
+    + Cualquier SMP puede acceder directamente a la memoria de otro SMP.
+    + No hay igual tiempo de acceso a las locaciones de memoria.
+    + El acceso a memoria es más lento.
+    + No hay coherencia del caché.
+
+4. **Memoria distribuida:**
+    + Modelo de paso de mensajes.
+    + Necesita red de comunicación entre memoria de los procesadores.
+    + Tareas intercambian datos: paso/recepción de mensajes.
+    + Procesadores tienen su propia memoria local. Direcciones de memoria de un procesador no se asignan a otro.
+    + No existe espacios de direcciones global.
+
+    **Ejemplos:**
+    - Clusters: 
+        + Equipos homogéneos.
+        + SO único.
+        + Administración y manejo centralizado - única.
+        + Equipo están concentrados.
+    - Grids:
+        + Equipos heterogéneos.
+        + Múltiples SO.
+        + Administración y manejo descentralizado - multidominio.
+        + Equipo están dispersos.
+
+5. **Híbrido memoria distribuida-compartida:**
+    + Mantiene las ventajas de la memoria compartida y memoria distribuida.
+    + Alta escalabilidad.
+    + Principal desventaja: complejidad de programación.
+
+## Modelando el problema
+
+- **Descomposición/Partición:** Los cálculos se descomponen en pequeñas actividades (Unidades de concurrencia).
+    + *Estrategias de particionamiento:*
+        * Descomposición en dominios: Se dividen las estructuras de datos, tareas asociadas a cada partición. 
+        * Descomposición funcional: Se particionan los cálculos en tareas funcionales.
+- **Coordinación:** Mecanismos para la comunicación y sincronización.
+- **Asignación/Empaquetamiento:** Tareas se agrupan en procesos más grandes con el fin de optimizar rendimiento y costos de desarrollo.
+- **Gestión:** Los procesos se asignan a los procesadores disponibles maximizando su uso y los costos de comunicación.
+
+**Método:**
+
+A) Los datos se dividen en sets pequeños de similar tamaño.
+B) Diseño de las tareas: de acuerdo a los sets de datos y sus cálculos asociados.
+
+**Estilo a seguir:** Single Program Multiple Data (SPMD).
+
+- *Mismo código, datos distintos:* Todos los procesadores ejecutan el mismo programa. 
+    + Por ejemplo: Si hay un arreglo grande, cada procesador peude procesar una parte del arreglo.
+- *Ejecución independiente:*
+    + Cada procesador puede estar en una parte diferente del código al mismo tiempo.
+- *Comunicación explícita:*
+    + Como MPI en sistemas distribuidos.
+
+## Coordinación
+
+### Comunicación y Sincronización
+- Memoria compartida.
+- Pase de mensajes.
+
+### Influencias de la descomposición
+- *Descomposición en dominios:* Eficiente comunicación <- implementación compleja por la dependencia entre tareas.
+- *Descomposción funcional:* Eficiente comunicación <- inmediata, corresponde al flujo de datos de tareas.
+---
+**1. Comunicación local:** Poca comunicación entre tareas.
+
+**1. Comunicación global:** Mucha/frecuente comunicación entre todas las tareas.
+
+**2. Comunicación estructurada:** Una tarea y sus vecinos forman estructura regular.
+
+**2. Comunicación no estructurada:** Patrón de comunicación es irregular.
+
+**3. Comunicación estática:** La identidad de las tareas no cambia con el tiempo.
+
+**3. Comunicación dinámica:** Patrón de comunicación cambia dutante la ejecución.
+
+**4. Comunicación síncrona:** Productores y consumidores operan de forma coordinada.
+
+**4. Comunicación asíncrona:** El consumidor obtiene sin cooperación del produtor.
+
+---
+
+### ***"Overhead"***
+Es el tiempo requerido para coordinar tareas paralelas. No se realiza trabajo útil, este tiempo es para:
+- Tiempo de incio de tarea
+- Sincronización
+- Comunicación de datos
+- Sobrecarga de software
+- Tiempo de terminación de tarea
+
+### Modelos de paralelismo
+- **Master-Slave**
+- **SPMD (Single program multiple data):** Se ejecutan N copias iguales (pero independientes) de la tarea sobre varios conjuntos de datos.
+- **MPMD (Multiple program multiple data):** Se ejecutan N programas/tareas diferentes.
+
+### Balance de la solución
+
+*Modelo*
+- Productividad
+- Desempeño
+- Portabilidad
+
+---
+---
+
 # I. Concurrencia vs. Paralelismo
 ## 1. Concurrencia:
 
