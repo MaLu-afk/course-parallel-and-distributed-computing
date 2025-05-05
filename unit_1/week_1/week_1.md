@@ -69,7 +69,7 @@
     - En caso se tenga un solo procesador se desconoce si después de la ejecución de una instrucción habrá alguna interrupción para pasar de un proceso a otro.
     - En caso del sistema mulltiprocesador las velocidades de los procesadores no están sincronizadas, por lo que no se conoce a priori cuál procesador va a ser el primero en ejecutar su siguiente instrucción.
 * Aprovechar el hardware: múltiples procesadores.
-* Incrementar productivada de la CPU.
+* Incrementar productividad de la CPU.
 
 ### Correción en sistemas concurrentes:
 
@@ -117,11 +117,9 @@ El comando grep: Global Regular Expression Print, busca líneas que contienen el
 
 ### Ejercicios (situaciones reales)
 
-- 02 ejemplos de sistemas en la naturaleza que sean
-concurrentes
+- 02 ejemplos de sistemas en la naturaleza que sean concurrentes
 - 02 sistemas inherentemente concurrentes
-- 02 sistemas potencialmente concurrentes (beneficios de la
-concurrencia)
+- 02 sistemas potencialmente concurrentes (beneficios de la concurrencia)
 
 ### Produciendo actividades concurrentes en el ordenador
 - **De forma manual:**
@@ -133,8 +131,52 @@ concurrencia)
     + El SO realiza la asignación automáticamente
     + El compilador detecta concurrencia en los programas secuenciales
 
-page: 38
+### Lenguajes concurrentes
 
+- Los procesos concurrentes deben comunicarser entre sí.
+- Un lenguaje concurrente debe tener mecanismos de comunicación y sincronización.
+
+### Programación concurrente
+
+#### Sincronización
+
+- Señalización
+    + Semáforos
+    + Cerrojos y variables de condición
+    + Eventos
+    + Retardos temporales
+- Recursos compartidos
+    + Regiones críticas
+    + Monitores
+    + Objetos protegidos
+
+#### Comunicación
+
+- Memoria compartida
+- Buzones
+- Llamadas a procedimientos remotos (RPC)
+
+# Programación paralela
+
+- Programas especialmente escritos para sistemas con multiprocesadores.
+- Caso particular de programación concurrente -> ejecución paralela.
+
+### Ejercicios
+Usando sentencias concurrentes:
++ Multiplicar dos matrices
++ Sumar una lista de N números
++ Ordenar un vector
++ Obtener números primos entre 2 y N
+
+### Existenciales
++ ¿No es suficiente la programación secuencial?
+    - No, la programación secuencial no siempre es suficiente. Aunque puede ser adecuada para problemas simples, se vuelve limitada cuando se trata de aplicaciones que necesiten manejar múltiples tareas al mismo tiempo, como servidores web. Esta limitación se vuelve aún más evidente en contextos donde se requiere paralelismo, ya que la programación secuencial no puede aprovechar múltiples núcleos de procesamiento. 
+
++ ¿Puede la programación secuencial modelar un sistema concurrente?
+    - Puede intentar modelar, pero no de manera eficiente. En programación secuencial todo ocurre una instrucción después de otra, por lo tanto, simular concurrencia implica interrupciones manuales del programa, lo cula no refleja la verdadera ejecución simultánea de tareas.
+
++ ¿La programación secuencial puede aprovechar los múltiples procesadores de un ordenador?
+    - No, la programación secuencial no puede aprovechar los múltiples procesadores o núcleos, ya que las instrucciones se ejecutan una tras otra en un solo hilo de ejecución. Para sacar provecho del hardware multinúcleo es necesario utilizar programación paralela o concurrente, dividiento la carga de trabajo en varios hilos o procesos que pueden ejecutarse simultáneamente.
 
 
 ---
