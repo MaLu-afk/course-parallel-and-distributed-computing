@@ -1,3 +1,64 @@
+# Aceleradores de hardware
+
+## CPUs
+
+### Conceptos clave
+- Mútiples núcleos:
+    + **Definición:** Un núcleo es la unidad independiente de procesamiento. En un CPU multicore, dentro de un chip se encuentran varios núcleos, cada uno capaz de ejecutar instrucciones sin esperar que otro termine. 
+    + **Beneficios:** 
+        * Permite el procesamiento simultáneo de tareas.
+        * Aumenta el redimiento general sin necesidad de aumentar la frecuencia de reloj de manera excesiva. 
+        * Reduce el consumo energético comparando con la misma cantidad de rendimiento en un solo núcleo.
+    + **Uso general:**
+        * Aplicabilidad: Ideales para ejecutar múltiples procesos y tareas concurentes.
+        * Ventajas para el usuario: Permite que un SO gestione varias aplicaciones al mismo tiempo, sin que se note el tiempo de retrasos o bloqueos.
+
+## GPUs
+
+### ¿Qué es una GPU y en qué se diferencia de una CPU?
+
+- **CPU:** Diseñado para ejecutar pocas tareas complejas de manera eficiente (procesamiento secuencial).
+- **GPU:** Diseñado para ejecutar muchas tareas simples en paralelo (procesamiento masivo).
+
+*"PCI-Express (Peripheral Component Interconnect Express): es la autopista digital que permite a los componentes (GPU, SSD) comunicarse con la CPU a velocidades increíbles"*
+
+### Arquitecturas Nvidia GeForce
+
+Nvidia ofrece diferentes productos, divididos en las tres familias principales:
+
+- **GeForce**: orientada al gran mercado de concumo multimedia (videojuegos, edición de videos, entre otros).
+- **Cuadro**: orientado a soluciones profesionales que requieran modelos 3D, como los sectores de ingeniería y arquitectura.
+- **Tesla**: orientada a la parte de investigación, simulación masiva, computación financiera. 
+
+## TPUs
+
+### ¿Qué es una TPU?
+- Las TPUs (Tensor Processing Units) son chips desarrollados por Google para acelerar el procesamiento de tensores, la estructura de datos clave en redes neuronales.
+- Optimizada para operaciones de matrices y vectores, esenciales para deep learning.
+
+#### Aplicaciones:
+- Google Photos: Reconocimiento de imágenes.
+- Google Traslate: Traducciones automáticas eficientes.
+- Google Assistant: Procesamiento de voz y comprensión de lenguaje.
+- Deep Learning en la Nube: TPUs disponibles en Google Cloud para entrenar modelos de IA.
+
+## ¿Por qué TPUs? Diferencias con CPUs y GPUs
+
+|**Características**|CPU|GPU|TPU|
+|-|-|-|-|
+|Núcleos|Pocos núcleos potentes|Miles de núcleos simples|Hardware especializado para tensores|
+|Uso Principal|Tareas generales|Computación paralela (gráficos, IA)|Redes neuronales e IA|
+|Consumo Energético|Alto|Medio|Bajo|
+|Velocidad en IA|Lenta|Rápida|Muy rápida|
+
+
+
+
+
+
+---
+---
+
 # 1. CPUs Multicore - Aplicaiones en empresas y centros de investigación
 
 Son procesadores de múltiples núcleos que permiten la ejecución simultánea de varias tareas.
