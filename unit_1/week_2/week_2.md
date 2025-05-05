@@ -30,7 +30,7 @@ Sistemas con 2 o más procesadores. Pueden ejecutar varias instrucciones en simu
 
 - **A nivel de bits:** Tamaño de los datos que puede trabajar el procesador.
 - **A nivel de instrucción:** Cambia el orden de las instrucciones de un programa y juntarlas en grupos para posteriormente ser ejecutados paralelo sin alterar el resultado final del programa.
-- **A nivel de tarea:** Casa procesador realiza la misma tarea sobre un subconjunto independiente de datos.
+- **A nivel de tarea:** Cada procesador realiza la misma tarea sobre un subconjunto independiente de datos.
 
 ## Memoria de computación paralela
 
@@ -90,12 +90,13 @@ Sistemas con 2 o más procesadores. Pueden ejecutar varias instrucciones en simu
 **Método:**
 
 A) Los datos se dividen en sets pequeños de similar tamaño.
+
 B) Diseño de las tareas: de acuerdo a los sets de datos y sus cálculos asociados.
 
 **Estilo a seguir:** Single Program Multiple Data (SPMD).
 
 - *Mismo código, datos distintos:* Todos los procesadores ejecutan el mismo programa. 
-    + Por ejemplo: Si hay un arreglo grande, cada procesador peude procesar una parte del arreglo.
+    + Por ejemplo: Si hay un arreglo grande, cada procesador puede procesar una parte del arreglo.
 - *Ejecución independiente:*
     + Cada procesador puede estar en una parte diferente del código al mismo tiempo.
 - *Comunicación explícita:*
@@ -131,14 +132,14 @@ B) Diseño de las tareas: de acuerdo a los sets de datos y sus cálculos asociad
 
 ### ***"Overhead"***
 Es el tiempo requerido para coordinar tareas paralelas. No se realiza trabajo útil, este tiempo es para:
-- Tiempo de incio de tarea
+- Tiempo de inicio de tarea
 - Sincronización
 - Comunicación de datos
 - Sobrecarga de software
 - Tiempo de terminación de tarea
 
 ### Modelos de paralelismo
-- **Master-Slave**
+- **Master-Slave:** El hilo master genera N hilos para ser ejeutados en paralelo, dichos hilos mueren al terminar la tarea.
 - **SPMD (Single program multiple data):** Se ejecutan N copias iguales (pero independientes) de la tarea sobre varios conjuntos de datos.
 - **MPMD (Multiple program multiple data):** Se ejecutan N programas/tareas diferentes.
 
