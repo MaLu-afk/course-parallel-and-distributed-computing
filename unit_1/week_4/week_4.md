@@ -157,9 +157,9 @@ Donde:
 
 La fórmula también se puede reescribir como:
 
-$
+$$
 S\_scaled(N) = s + N*(1-s) = N - s*(N - 1)
-$
+$$
 
 
 
