@@ -1,3 +1,53 @@
+# Métricas de desempeño: Speedup, eficiencia, escalabilidad
+
+- **Speedup**, revela cuánto se acelera el procesamiento frente a una ejecución secuencial.
+- **Eficiencia**, mide la eficacia en el uso de los recursos disponibles.
+- **Escalabilidad**, que determina la capacidad del sistema para crecer sin perder el rendimiento.
+
+## Introducción a las métricas de desempeño
+
+Una métrica de desempeño es una medida cuantitativa que nos ayuda a evaluar la eficacia y eficiencia al ejecutar un algoritmo o una aplicación en un entorno que utiliza múltiples procesadores o núcleos de forma simultánea.
+
+## Tipos de métricas y cuándo se aplican
+1. Tiempo de ejecución:
+    - ***Qué mide:*** El tiempo total que tarda la aplicación en finalizar la tarea asignada.
+    - ***Cuándo se aplica:*** Es la métrica básica y siempre se mide para poder comparar, por ejemplo, una versión secuencial con la paralela del mismo algoritmo para ver la ganancia en velocidad.
+
+2. Speedup:
+    - ***Qué mide:*** La realación entre el tiempo de ejecución secuencial y el tiempo de ejecución paralela.
+    - ***Fórmula:*** $Speedup = \frac {Tiempo\_secuencial}{Tiempo\_paralelo}$
+ 
+3. Eficiencia:
+    - ***Qué mide:*** El aprovechamiento de los recursos paralelos.
+    - ***Fórmula común:*** $Eficiencia = \frac{Speedup}{número -de-procesadores}$
+    - ***Cuándo se aplica:*** Para identificar si el aumento en el número de procesadores se traduce en un desempeño proporcional.
+
+4. Escalabilidad:
+    - ***Qué mide:*** La capacidad del sistema o algoritmo de mantener el rendimiento al incrementar el número de procesadores.
+    - ***Tipos:***
+        + Escalabilidad fuerte: ocurre cuando se mantiene constante el tamaño del problema y se aumenta el número de procesadores. Se espera que disminuya en el tiempo.
+        + Escalabilidad débil:ocurre cuando el tamaño del problema es proporcional al número de procesadores, buscando mantener el tiempo de ejecución.
+
+5. Overhead de comunicación y sincronización:
+    - ***Qué mide:*** El tiempo extra requerido para la coordinación entre procesos.
+    - ***Cuándo se aplica:*** Al desarrollar algoritmos paralelos, para saber si la comunicación entre nodos o hilos no consume un porcentaje demasiado alto del tiempo total.
+
+### ¿Por qué medir el desempeño en sistemas paralelos?
+- Evaluar la eficiencia de la paralelización.
+- Identificar cuellos de botella. 
+- Escalabilidad del sistema.
+- Análisis costo-beneficio.
+- Optimización y validación de algoritmos.
+
+Agregar más procesadores en principio puede garantizar mayor velocidad, pero la realidad es más compleja:
+- División de tareas y Speedup.
+- Comunicacinón y sincronización.
+- Eficiencia y rendimientos decrecientes.
+- Escalabilidad: Fuerte y débil.
+
+---
+---
+
 # Métricas de desempeño: Speedup (Aceleración)
 
 ## 1. Definición de Speedup
@@ -51,7 +101,7 @@ $$
 S(N) = \frac{1}{f + \frac{(1-f)}{N}}
 $$
 
-Donde: 
+Donde:  
 
     * S(N): Es el Speedup teórico máximo que se puede alcanzar utilizando N unidades de procesamiento. 
     * f: Es la fracción de tiempo de ejecución del programa original (secuencial) que es inherentemente secuencial (no paralelizable). Se expresa como un valor entre 0 y 1 (0.1 para 10%).
@@ -66,3 +116,8 @@ $$
 
 Esto quiere decir si un programa tiene un 10% de código secuencial ($f=0.1$), el Speedup máximo que jamás podrá alcanzar, incluso con un número infinito de procesadores, es $1/0.1 = 10x$.
  
+
+# Ley de Gustafson (o Ley de Gustafson-Barsis): Teoría, Comparación
+
+## 1. Teoría de la Ley de Gustafson
+
