@@ -121,3 +121,46 @@ Esto quiere decir si un programa tiene un 10% de código secuencial ($f=0.1$), e
 
 ## 1. Teoría de la Ley de Gustafson
 
+La Ley de Gustafson surgió debido a la limitaciones percibidas de la Ley de Amdhal, en el contexo de comoputación masiva paralela. 
+
+Mientras Amdhal se centra en mantener el tamaño fijo del problema y evaluar cuánta velocidad se gana al incrementar el número de procesadores, Gustafson observó que en la práctica cuando se dispone de más potencia de cómputo (más procesadores), los usuarios tienden a aumentar el tamaño del problema (mayor resolución, más detalle) para obtener resultados más precisos o complejos manteniedo el tiempo de ejecución en aproximadamente constante. La perspectiva es: "Dado un tiempo de ejecución fijo, ¿cuánto más trabajo puedo realizar utilizando N procesadores en comparación con uno solo?".
+
+## 2. Comparación: Ley de Amdhal vs. Ley de Gustafson
+
+|*Características*|Ley de Amdhal|Ley de Gustafson|
+|-|-|-|
+|**Supuesto clave**|*Tamaño* del problema fijo|*Tiempo* de ejecución fijo|
+|**Objetivo**|Minimizar el tiempo para un problema|Maximizar el trabajo en un tiempo|
+|**Perspectiva**|¿Cuánto más rápido?|¿Cuánto más trabajo?|
+|**Variable clave**|f: Fracción secuencial del tiempo de ejecución original|s: Fracción secuencial del tiempo de ejecución paralelo|
+|**Limitación**|Speedup limitada por 1/f|Speedup puede crecer linealmente (si `s` es pequeño y el problema escala)|
+|**Optimismo**|Más pesimita para N grande|Más optimista para N grande (si aplica)|
+|**Aplicabilidad**|Problemas con tamaño fijo|Problemas cuyo tamaño se escala con lo recursos (simulaciones, gráficos, big data)|
+
+### ¡Importante distinción entre fracción secuencial!
+- **Amdhal (f):** Porcentaje del tiempo original (en 1 procesador) que no se puede paralelizar.
+- **Gustafson (s):** Porcentaje del tiempo total en la ejecución paralela (con N procesadores) se dedica a tareas secuenciales.
+
+## 3. Fórmula de la Ley de Gustafson
+
+Scaled Speedup (Speedup Escalado) S_scaled(N) es:
+
+$$
+S\_scaled(N) = s + p*N
+$$
+
+Donde:
+    
+    * S_scaled: Es el Speedup escalado con N procesadores. Representa cuánto más trabajo se hizo en el mismo tiempo.
+    * s: Es la fracción del tiempo de ejecución paralela total que se dedica a la parte secuencial.
+    * p: Es la fracción del tiempo de ejecución paralela total que se dedica a la parte paralela (p = 1 - s).
+
+La fórmula también se puede reescribir como:
+
+$
+S\_scaled(N) = s + N*(1-s) = N - s*(N - 1)
+$
+
+
+
+
